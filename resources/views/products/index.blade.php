@@ -9,6 +9,19 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="w-full">
+                <div class="w-1/2 mb-4 mx-auto">
+                    <form action="{{ route('products.search') }}" method="POST">
+                        @csrf
+
+                        <input type="text" class="form-control" placeholder="Find product here" name="search" value="{{ old('search') }}">
+                        <select data-filter="make" name="category" class="filter-make filter form-control">
+                            <option value="0">{{ __('product.index.category') }}</option>
+                            <option value="1">{{ __('product.index.food') }}</option>
+                            <option value="2">{{ __('product.index.drink') }}</option>
+                        </select>
+                        <button class="w-1/6 rounded bg-blue-500 p-2 text-white" type="submit">Tìm</button>
+                    </form>
+                </div>
 
                 <div class="grid grid-cols-4 gap-4">
                     @foreach ($products as $index => $product)

@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $products = DB::table('products')->where('salesman_id', $user->id)
             ->orderBy('id', 'desc')
-            ->paginate('8');
+            ->paginate(config('app.pagination.per_page'));
 
         return view('users.products')->with('products', $products);
     }

@@ -3,6 +3,9 @@
 return [
     'index' => [
         'sold' => 'Sold: ',
+        'category' => 'Category',
+        'food' => 'Food',
+        'drink' => 'Drink',
         'title' => 'Product List',
     ],
 

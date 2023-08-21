@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $added_cart = CartItem::where('product_id', $request->id)
+        $added_cart = CartItem::with('product')->where('product_id', $request->id)
             ->where('user_id', Auth::user()->id)
             ->first();
 
@@ -50,6 +51,10 @@ class CartController extends Controller
         }
 
         if ($added_cart) {
+            if ($added_cart->quantity + $added > $added_cart->product->number_in_stock) {
+                return back()->with('fail', trans('cart.add.fail'));
+            }
+
             $added_cart->quantity = $added_cart->quantity + $added;
 
             $added_cart->save();

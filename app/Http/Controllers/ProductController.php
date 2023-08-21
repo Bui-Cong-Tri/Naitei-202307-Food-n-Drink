@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Product\SearchProductRequest;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
@@ -20,7 +21,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = DB::table('products')->orderBy('id', 'desc')->paginate(config('app.pagination.per_page'));
+        $products = DB::table('products')->where('salesman_id', '<>', Auth::user()->id)
+            ->orderBy('id', 'desc')->paginate(config('app.pagination.per_page'));
 
         return view('products.index', compact('products'));
     }
@@ -33,6 +35,27 @@ class ProductController extends Controller
     public function create()
     {
         return view('products.create');
+    }
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->search;
+        $categoryId = $request->category ?? 0;
+
+        $query = Product::with('categories')
+            ->where('name', 'LIKE', '%' . $searchTerm . '%')
+            ->where('salesman_id', '<>', Auth::user()->id);
+
+        if ($categoryId > 0) {
+            $query->whereHas('categories', function ($query) use ($categoryId) {
+                $query->where('categories.id', $categoryId);
+            });
+        }
+
+        $products = $query->orderBy('id', 'desc')
+            ->paginate(config('app.pagination.per_page'));
+
+        return view('products.index', compact('products'));
     }
 
     /**

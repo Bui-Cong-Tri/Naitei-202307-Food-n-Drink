@@ -11,6 +11,7 @@ return [
     ],
     'add' => [
         'success' => 'Thêm sản phẩm vào giỏ hàng thành công',
+        'fail' => 'Số lượng sản phẩm bạn muốn thêm vượt quá số lượng trong kho. Thêm sản phẩm không thành công',
     ],
     'delete' => [
         'success' => 'Xóa sản phẩm trong giỏ hàng thành công',

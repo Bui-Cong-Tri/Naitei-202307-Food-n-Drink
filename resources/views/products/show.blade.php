@@ -84,28 +84,32 @@
             @else
                 <div class="flex flex-col basis-1/3">
                     @foreach ($sameUserProducts as $index => $sameUserProduct)
-                        <form action="{{ route('cart.store') }}" method="POST">
-                            @csrf
+                        <a href="{{ route('products.show', ['product' => $sameUserProduct->id]) }}">
+                            <form action="{{ route('cart.store') }}" method="POST">
+                                @csrf
 
-                            <div class="w-screen-1280 h-32 mr-8 p-4 bg-white mb-4 shadow-lg flex justify-between">
+                                <div class="w-screen-1280 h-32 mr-8 p-4 bg-white mb-4 shadow-lg flex justify-between">
+                                    <div class="flex">
+                                        <div class="flex items-center">
+                                            @if (strpos($sameUserProduct->photo, 'https://via.placeholder.com/') === 0)
+                                                <img class="w-28 h-28 mb-2" src="{{ $sameUserProduct->photo }}" alt="Card image">
+                                            @else
+                                                <img class="w-28 h-28 mb-2" src="{{ asset($sameUserProduct->photo) }}" alt="Card image">
+                                            @endif
+                                        </div>
+                                        <div class="ml-4 flex flex-col justify-between">
+                                            <input type="hidden" name="id" value="{{ $sameUserProduct->id }}" />
+                                            <div class="text-xl font-bold">{{ $sameUserProduct->name }}</div>
+                                            <div class="text-3xl text-red-600 font-bold mb-4">{{ $sameUserProduct->price }} $</div>
+                                        </div>
+                                    </div>
 
-                                <div class="flex">
-                                    <div class="flex items-center">
-                                        <img class="w-28 h-28 mb-2" src="{{ $sameUserProduct->photo }}" alt="Card image">
-                                    </div>
-                                    <div class="ml-4 flex flex-col justify-between">
-                                        <input type="hidden" name="id" value="{{ $sameUserProduct->id }}" />
-                                        <div class="text-xl font-bold">{{ $sameUserProduct->name }}</div>
-                                        <div class="text-3xl text-red-600 font-bold mb-4">{{ $sameUserProduct->price }} $</div>
-                                    </div>
+                                    <button class="px-6 mb-4" type="submit">
+                                        <i class="fa fa-cart-plus"></i>
+                                    </button>
                                 </div>
-
-                                <button class="px-6 mb-4" type="submit">
-                                    <i class="fa fa-cart-plus"></i>
-                                </button>
-
-                            </div>
-                        </form>
+                            </form>
+                        </a>
                     @endforeach
                 </div>
             @endif

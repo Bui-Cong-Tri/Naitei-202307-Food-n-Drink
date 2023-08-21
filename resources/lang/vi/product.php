@@ -4,6 +4,10 @@ return [
     'index' => [
         'sold' => 'Đã bán: ',
         'title' => 'Danh sách sản phẩm',
+        'sold'=> 'Đã bán: ',
+        'category' => "Loại",
+        'food' => 'Đồ ăn',
+        'drink' => 'Đồ uống',
     ],
 
     'show' => [
